@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement Instance {  get; private set; }
-    public GameInput inputSystem{ get; private set; }
-
     private PlayerCurrentState _currentState;
 
     [Header("Настройки движения")]
@@ -33,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
     {
         Instance = this;
         _rb = GetComponent<Rigidbody2D>();
-        inputSystem = gameObject.AddComponent<GameInput>();
         _currentState = GetComponent<PlayerCurrentState>();
     }
 

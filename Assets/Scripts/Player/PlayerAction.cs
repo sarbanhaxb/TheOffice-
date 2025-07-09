@@ -1,4 +1,3 @@
-using Mono.Cecil.Cil;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +12,18 @@ public class PlayerAction : MonoBehaviour
         _mainCamera = Camera.main;
     }
 
-    public void OnClick(InputAction.CallbackContext context)
+    private void OnEnable()
+    {
+        GameInput.Instance.playerInputActions.Player.Action.performed += OnClickAction;
+        GameInput.Instance.playerInputActions.Player.Action.performed += OnContextMenu;
+    }
+    private void OnDisable()
+    {
+        GameInput.Instance.playerInputActions.Player.Action.performed -= OnClickAction;
+        GameInput.Instance.playerInputActions.Player.Action.performed -= OnContextMenu;
+    }
+
+    private void OnClickAction(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
@@ -35,9 +45,8 @@ public class PlayerAction : MonoBehaviour
             }
         }
     }
-
-    public void OnContextMenu(InputAction.CallbackContext context)
+    private void OnContextMenu(InputAction.CallbackContext context)
     {
-        Debug.Log("Контекстное меню открыто");
+
     }
 }

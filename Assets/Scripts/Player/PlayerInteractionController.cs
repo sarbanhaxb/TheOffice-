@@ -75,4 +75,14 @@ public class PlayerInteractionController : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position + Vector3.up * 3f, interactionRange);
     }
+
+    private void OnEnable()
+    {
+        GameInput.Instance.playerInputActions.Player.Interact.performed += OnInteract;
+    }
+
+    private void OnDisable()
+    {
+        GameInput.Instance.playerInputActions.Player.Interact.performed -= OnInteract;
+    }
 }

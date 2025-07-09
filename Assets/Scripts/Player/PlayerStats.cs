@@ -19,14 +19,15 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Настройки скорости")]
     [SerializeField] private float minMoveSpeed = 10f;
+    [SerializeField] private float maxMoveSpeed = 20f; // Добавлено максимальное значение скорости
     [SerializeField] private float stressSpeedMultiplier = 0.5f;
 
     [Header("Финансы")]
     [SerializeField] private float baseMoneyPerSecond = 1f;
-    [SerializeField] private float maxMoneyMultiplier = 2f;
+    [SerializeField] private float coffeeMoneyBoost = 5f; // Множитель денег при эффекте кофе
 
     [Header("Дополнительные эффекты")]
-    [SerializeField] private float coffeeSpeedBoost = 3f; // Множитель скорости
+    [SerializeField] private float coffeeSpeedBoost = 2f; // Множитель скорости (теперь 2x вместо 3)
     [SerializeField] private float coffeeEffectDuration = 15f; // Длительность в секундах
     [SerializeField] private float coffeeEffect = -5;
     [SerializeField] private float smokeEffect = -10f;
@@ -52,7 +53,7 @@ public class PlayerStats : MonoBehaviour
         _currentMoney = 0;
 
         stressIncreaseRate = defaultStressIncreaseRate;
-        hungerIncreaseRate = defaultThirstIncreaseRate;
+        hungerIncreaseRate = defaultHungerIncreaseRate;
         thirstIncreaseRate = defaultThirstIncreaseRate;
 
         _playerCurrentState = GetComponent<PlayerCurrentState>();
@@ -62,6 +63,7 @@ public class PlayerStats : MonoBehaviour
     private void Update()
     {
         UpdateStats();
+        UpdateCoffeeEffect(); // Добавлен вызов обновления таймера кофе
         if (_playerCurrentState.GetCurrentState().Equals(PlayerStates.Working)) UpdateFinancialStatus();
     }
 
@@ -113,22 +115,18 @@ public class PlayerStats : MonoBehaviour
         _currentStarveLevel = Mathf.Clamp(_currentStarveLevel + hungerIncreaseRate * Time.deltaTime, 0f, maxStarveLevel);
         _currentThirstLevel = Mathf.Clamp(_currentThirstLevel + thirstIncreaseRate * Time.deltaTime, 0f, maxThirstLevel);
 
-        float stressImpact = _currentStressLevel / maxStressLevel;
-        float targetSpeed = Mathf.Lerp(PlayerMovement.Instance.GetBaseMoveSpeed(), minMoveSpeed, stressImpact * stressSpeedMultiplier);
+        float stressImpact = Mathf.Clamp01(_currentStressLevel / maxStressLevel);
 
-        if (_hasCoffeeEffect)
-        {
-            float boostProgress = _coffeeEffectTimer / coffeeEffectDuration;
-            float currentBoost = 1 + (coffeeSpeedBoost - 1) * boostProgress;
-            PlayerMovement.Instance.SetBaseMoveSpeed(targetSpeed * currentBoost);
-            baseMoneyPerSecond = 5f;
-        }
-        else
-        {
-            PlayerMovement.Instance.SetBaseMoveSpeed(targetSpeed);
-            baseMoneyPerSecond = 1f;
-        }
+        // Обновляем скорость с учетом эффекта кофе и стресса
+        float targetSpeed = _hasCoffeeEffect ? maxMoveSpeed : minMoveSpeed;
+        targetSpeed *= (1 - stressImpact * stressSpeedMultiplier);
+
+        PlayerMovement.Instance.SetBaseMoveSpeed(targetSpeed);
+
+        // Обновляем доход с учетом эффекта кофе
+        baseMoneyPerSecond = _hasCoffeeEffect ? coffeeMoneyBoost : 1f;
     }
+
     private void UpdateCoffeeEffect()
     {
         if (_hasCoffeeEffect)
@@ -138,20 +136,28 @@ public class PlayerStats : MonoBehaviour
             if (_coffeeEffectTimer <= 0f)
             {
                 _hasCoffeeEffect = false;
+                _coffeeEffectTimer = 0f;
                 //coffeeTimerUI.gameObject.SetActive(false);
             }
         }
     }
+
     public void ApplyCoffeeEffect()
     {
-        _hasCoffeeEffect = true;
-        _coffeeEffectTimer = coffeeEffectDuration;
-        //coffeeTimerUI.gameObject.SetActive(true);
+        if (!_hasCoffeeEffect) // Чтобы не сбрасывать таймер, если эффект уже активен
+        {
+            _hasCoffeeEffect = true;
+            _coffeeEffectTimer = coffeeEffectDuration;
+            //coffeeTimerUI.gameObject.SetActive(true);
+        }
     }
 
     private void OnDestroy()
     {
-        _playerCurrentState.OnStateChanged -= UpdateCurrentState;
+        if (_playerCurrentState != null)
+        {
+            _playerCurrentState.OnStateChanged -= UpdateCurrentState;
+        }
         Destroy(gameObject);
     }
 

@@ -63,8 +63,33 @@ AnimationClip:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
-    genericBindings: []
-    pptrCurveMapping: []
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    pptrCurveMapping:
+    - {fileID: -7331279543182935298, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -5283121378863337411, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: 6663366501367931795, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -3024240392145463527, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -2302784444301285857, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: 115639524578344702, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -1570632120369362301, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -6751152530740205960, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -5183581093480933592, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -7535335611107147333, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -7264664952932049598, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: 4605731993842816471, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -7548806648544927719, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -7646865894018276735, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -1605918085850106760, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
+    - {fileID: -1605918085850106760, guid: 85ad1455942719940b8fba08456ddb67, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -89,4 +114,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 2.74
+    functionName: ResetState
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

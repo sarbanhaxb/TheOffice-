@@ -11,21 +11,10 @@ public class WorkingInteractable : MonoBehaviour, IInteractable
     public GameObject workPlaceHint;
     [SerializeField] private float interactionPriority = 5f;
 
-    //private PlayerStats _playerStats;
-    //private PlayerCurrentState _currentState;
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("ZASHOL");
-    }
-
-
     public void Interact()
     {
         if (PlayerCurrentState.Instance.GetCurrentState() != PlayerStates.Working && PlayerStats.Instance.GetStressRatio() != 1f)
         {
-            PlayerCurrentState.Instance.SetState(PlayerStates.Working);
             PlayerCurrentState.Instance.SetState(PlayerStates.Working);
             workPlaceHint.GetComponent<TMP_Text>().text = "Press E to stop working";
         }

@@ -16,15 +16,14 @@ public class PlayerVisual : MonoBehaviour, EntityVisual
     private const string IS_SMOKING = "IsSmoking";
     private const string IS_PRESENT = "IsPresent";
     private const string IS_WORKING = "IsWorking";
-    private const string IS_DRINKING = "IsDrinking";
+    private const string IS_DRINKING = "IsDrinkWater";
     private const string IS_DRINKING_COFFEE = "IsDrinkingCoffee";
     private const string IS_MICROWAVING = "IsMicrowaving";
     private const string IS_TIRED = "IsTired";
     private const string IS_EATING = "IsEating";
+    private const string IS_TALKING = "IsTalking";
 
     Vector2 lastDirection = Vector2.zero;
-    bool lastFlip = false;
-
     private Color _originalColor;
 
 
@@ -90,7 +89,6 @@ public class PlayerVisual : MonoBehaviour, EntityVisual
         }
     }
 
-
     private void UpdatePlayerStateVisual(PlayerStates newState)
     {
         _animator.Rebind();
@@ -116,7 +114,7 @@ public class PlayerVisual : MonoBehaviour, EntityVisual
                 _spriteRenderer.flipX = false;
                 break;
             case PlayerStates.DrinkingCoffee:
-                _animator.SetTrigger(IS_DRINKING_COFFEE);
+                _animator.SetBool(IS_DRINKING_COFFEE, true);
                 break;
             case PlayerStates.Tired:
                 _animator.SetBool(IS_TIRED, true);
@@ -127,6 +125,9 @@ public class PlayerVisual : MonoBehaviour, EntityVisual
                 break;
             case PlayerStates.Moving:
                 _animator.SetFloat(SPEED, 1);
+                break;
+            case PlayerStates.Talking:
+                _animator.SetFloat(IS_TALKING, 1);
                 break;
             case PlayerStates.Idle:
                 _animator.SetFloat(SPEED, 0);
