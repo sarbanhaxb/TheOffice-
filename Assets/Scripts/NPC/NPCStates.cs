@@ -9,5 +9,6 @@ public enum NPCStates
 	GoDrinkWater,
 	GoDrinkCoffee,
 	GoMeeting,
-	GoEating
+	GoEating,
+	Empty
 }

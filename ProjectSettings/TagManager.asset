@@ -9,6 +9,15 @@ TagManager:
   - Room
   - EntityUI
   - States bar
+  - Cooler
+  - DrinkPoint
+  - WorkPoint
+  - SmokeArea
+  - CoffeePoint
+  - EatingPoint
+  - SmokePoint
+  - WorkTable
+  - GameTimer
   layers:
   - Default
   - TransparentFX

@@ -42,6 +42,7 @@ public class PlayerAction : MonoBehaviour
             {
                 _selectedObject.HideBarAnimation();
                 Debug.Log(" лик не попал в NPC. Pos: " + mouseWorldPos);
+                _selectedObject = null;
             }
         }
     }
