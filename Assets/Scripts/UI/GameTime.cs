@@ -10,8 +10,9 @@ public class GameTime : MonoBehaviour
 
     [Header("Time Settings")]
     [SerializeField] private float _realSecondsPerGameHour = 60f;
-    [Tooltip("Скорости ускорения времени: 1x (нормальная), 2x, 4x, 16x")]
-    [SerializeField] private float[] _timeSpeedMultipliers = { 1f, 2f, 4f, 16f }; [SerializeField] private Button _speedButton;
+    [Tooltip("Скорости ускорения времени: 1x (нормальная), 2x, 4x")]
+    [SerializeField] private float[] _timeSpeedMultipliers = { 1f, 2f, 4f };
+    [SerializeField] private Button _speedButton;
     [SerializeField] private TMP_Text _speedButtonText;
 
     [Header("UI Elements")]
