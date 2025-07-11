@@ -7,6 +7,11 @@ public class NPCStats : MonoBehaviour
 {
     NPC_CurrentState _currentState;
 
+    [Header("Финансы")]
+    [SerializeField] private float baseMoneyPerSecond = 1f;
+    [SerializeField] private float coffeeMoneyBoost = 5f; // Множитель денег при эффекте кофе
+
+
     [Header("Состояние персонажа")]
     [SerializeField] private float maxStressLevel = 100f;
     [SerializeField] private float stressIncreaseRate;
@@ -18,21 +23,18 @@ public class NPCStats : MonoBehaviour
     [SerializeField] private float thirstIncreaseRate;
     [SerializeField] private float defaultThirstIncreaseRate = 0.4f;
 
+    [Header("Параметры движения")]
     [SerializeField] private float minMoveSpeed = 10f;
     [SerializeField] private float maxMoveSpeed = 20f;
     [SerializeField] private float stressSpeedMultiplier = 0.5f;
 
+    [Header("Текущие характеристики")]
     [SerializeField] private float _currentStressLevel;
     [SerializeField] private float _currentStarveLevel;
     [SerializeField] private float _currentThirstLevel;
 
     private NavMeshAgent _navMeshAgent;
     private Animator _animator;
-
-    [Header("Boss")]
-    [SerializeField] private GameObject _Boss;
-    [SerializeField] private PlayerStats _BossStats;
-
 
     private void Awake()
     {
@@ -45,14 +47,18 @@ public class NPCStats : MonoBehaviour
         stressIncreaseRate = defaultStressIncreaseRate;
         hungerIncreaseRate = defaultHungerIncreaseRate;
         thirstIncreaseRate = defaultThirstIncreaseRate;
-
-        _BossStats = _Boss.GetComponent<PlayerStats>();
-
     }
 
     private void Update()
     {
         UpdateStats();
+        if (_animator.GetBool("IsWorking")) UpdateFinancialStatus();
+    }
+
+    private void UpdateFinancialStatus()
+    {
+        float stressFactor = 1 - (_currentStressLevel / maxStressLevel);
+        MoneyManager.Instance.AddMoney(baseMoneyPerSecond * stressFactor * Time.deltaTime);
     }
 
     private void UpdateStats()
@@ -73,7 +79,7 @@ public class NPCStats : MonoBehaviour
         switch (currentState)
         {
             case NPCStates.GoWorking when isWorking:
-                stressIncreaseRate = 5f; // Стресс растёт при работе
+                stressIncreaseRate = 3f; // Стресс растёт при работе
                 break;
 
             case NPCStates.GoDrinkWater when isDrinkingWater:
@@ -81,7 +87,7 @@ public class NPCStats : MonoBehaviour
                 break;
 
             case NPCStates.GoSmoking when isSmoking:
-                stressIncreaseRate = -20f; // Стресс снижается
+                stressIncreaseRate = -10f; // Стресс снижается
                 break;
 
             case NPCStates.GoEating when isEating:
@@ -89,8 +95,13 @@ public class NPCStats : MonoBehaviour
                 break;
 
             case NPCStates.GoDrinkCoffee when isDrinkingCoffee:
-                stressIncreaseRate = -10f; // Стресс снижается
-                thirstIncreaseRate = -10f; // Жажда растёт (кофе обезвоживает)
+                stressIncreaseRate = -5f; // Стресс снижается
+                thirstIncreaseRate = 3f; // Жажда растёт (кофе обезвоживает)
+                break;
+            case NPCStates.GoHome:
+                _currentStarveLevel = maxStarveLevel;
+                _currentStressLevel = maxStressLevel;
+                _currentThirstLevel = maxThirstLevel;
                 break;
         }
 

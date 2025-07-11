@@ -1,94 +1,112 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 using System;
 
-public class DayNightSystem : MonoBehaviour
+public class GameTime : MonoBehaviour
 {
-    [Header("Настройки времени")]
-    [SerializeField] private float _realSecondsPerGameHour = 60f; // 1 игровой час = 60 реальных секунд
-    [SerializeField] private TMP_Text _timeText; // Ссылка на TextMeshPro
+    public static GameTime Instance { get; private set; }
 
-    //[Header("Освещение")]
-    //[SerializeField] private Light _sunLight;
-    //[SerializeField] private Gradient _skyColorGradient;
-    //[SerializeField] private Gradient _sunColorGradient;
+
+    [Header("Time Settings")]
+    [SerializeField] private float _realSecondsPerGameHour = 60f;
+    [Tooltip("РЎРєРѕСЂРѕСЃС‚Рё СѓСЃРєРѕСЂРµРЅРёСЏ РІСЂРµРјРµРЅРё: 1x (РЅРѕСЂРјР°Р»СЊРЅР°СЏ), 2x, 4x, 16x")]
+    [SerializeField] private float[] _timeSpeedMultipliers = { 1f, 2f, 4f, 16f }; [SerializeField] private Button _speedButton;
+    [SerializeField] private TMP_Text _speedButtonText;
+
+    [Header("UI Elements")]
+    [SerializeField] private TMP_Text _timeText;
+    [SerializeField] private TMP_Text _dayOfWeekText;
 
     private DateTime _gameTime;
-    private bool _isMorningTriggered, _isDayTriggered, _isEveningTriggered;
+    private int _currentSpeedIndex = 0;
+    private int _lastDisplayedMinute = -1;
+    private int _lastDisplayedDay = -1;
+    private bool _isEveningTriggered = false;
 
-    public static event Action OnMorning;
-    public static event Action OnDay;
-    public static event Action OnEvening;
-
-    private int _lastDisplayedMinute = -1; // -1 чтобы гарантировать первое обновление
+    public static event Action OnEveningTime;
 
     private void Start()
     {
-        _gameTime = new DateTime(2023, 1, 1, 6, 0, 0); // Начинаем в 6:00
+        Instance = this;
+
+        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅРѕСЂРјР°Р»СЊРЅСѓСЋ СЃРєРѕСЂРѕСЃС‚СЊ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+        Time.timeScale = 1f;
+        _currentSpeedIndex = 0;
+
+        _gameTime = new DateTime(2025, 1, 1, 8, 0, 0);
+        _speedButton.onClick.AddListener(ToggleTimeSpeed);
+        UpdateSpeedButtonText();
+        CheckEveningTime();
+        ForceUpdateAllUI();
+    }
+
+    public DateTime GetGameTime() => _gameTime;
+
+    private void CheckEveningTime()
+    {
+        if (_gameTime.Hour == 17 && _gameTime.Minute == 0 && !_isEveningTriggered)
+        {
+            OnEveningTime?.Invoke();
+            _isEveningTriggered = true;
+        }
+        else if (_gameTime.Hour == 0 && _gameTime.Minute == 0)
+        {
+            _isEveningTriggered = false;
+        }
     }
 
     private void Update()
     {
-        UpdateGameTime();
-        //UpdateSunRotation();
-        //UpdateSkybox();
-        CheckTimeEvents();
-        UpdateUIText();
+        _gameTime = _gameTime.AddSeconds(Time.unscaledDeltaTime * (60f / _realSecondsPerGameHour) * Time.timeScale);
+        UpdateUITexts();
+        CheckEveningTime();
     }
 
-    private void UpdateGameTime()
+    private void ToggleTimeSpeed()
     {
-        _gameTime = _gameTime.AddSeconds(Time.deltaTime * (60f / _realSecondsPerGameHour));
-        Debug.Log(_gameTime.ToString("HH:mm:ss")); // Логируем время
+        _currentSpeedIndex = (_currentSpeedIndex + 1) % _timeSpeedMultipliers.Length;
+        Time.timeScale = _timeSpeedMultipliers[_currentSpeedIndex];
+        UpdateSpeedButtonText();
+        // РњРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ РІРёР·СѓР°Р»СЊРЅСѓСЋ/Р·РІСѓРєРѕРІСѓСЋ РѕР±СЂР°С‚РЅСѓСЋ СЃРІСЏР·СЊ
+        // Debug.Log($"Time scale changed to: {Time.timeScale}x");
     }
 
-    //private void UpdateSunRotation()
-    //{
-    //    // 0.5f = полдень (солнце в зените)
-    //    float timeNormalized = (_gameTime.Hour * 60 + _gameTime.Minute) / 1440f; // 1440 = минуты в сутках
-    //    _sunLight.transform.rotation = Quaternion.Euler(Mathf.Lerp(0, 360, timeNormalized) - 90f, 170f, 0);
-    //    _sunLight.color = _sunColorGradient.Evaluate(timeNormalized);
-    //}
-
-    //private void UpdateSkybox()
-    //{
-    //    RenderSettings.ambientLight = _skyColorGradient.Evaluate((_gameTime.Hour * 60 + _gameTime.Minute) / 1440f);
-    //}
-
-    private void CheckTimeEvents()
+    private void UpdateSpeedButtonText()
     {
-        // Утро (6:00)
-        if (_gameTime.Hour == 6 && _gameTime.Minute == 0 && !_isMorningTriggered)
+        _speedButtonText.text = $"Г—{Time.timeScale}";
+
+        // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ РІРёР·СѓР°Р»СЊРЅРѕРµ РІС‹РґРµР»РµРЅРёРµ РІС‹СЃРѕРєРѕР№ СЃРєРѕСЂРѕСЃС‚Рё
+        if (Time.timeScale >= 16f)
         {
-            OnMorning?.Invoke();
-            _isMorningTriggered = true;
-            _isDayTriggered = false;
-            _isEveningTriggered = false;
+            _speedButtonText.color = Color.red;
         }
-        // День (9:00)
-        else if (_gameTime.Hour == 9 && _gameTime.Minute == 0 && !_isDayTriggered)
+        else
         {
-            OnDay?.Invoke();
-            _isDayTriggered = true;
-            _isMorningTriggered = false;
-        }
-        // Вечер (18:00)
-        else if (_gameTime.Hour == 18 && _gameTime.Minute == 0 && !_isEveningTriggered)
-        {
-            OnEvening?.Invoke();
-            _isEveningTriggered = true;
-            _isDayTriggered = false;
+            _speedButtonText.color = Color.white;
         }
     }
-    private void UpdateUIText()
-    {
-        int currentMinute = _gameTime.Minute;
 
-        // Если текущая минута кратна 15 И ещё не отображали это значение
-        if (currentMinute % 15 == 0 && currentMinute != _lastDisplayedMinute)
+    private void UpdateUITexts()
+    {
+        if (_gameTime.Minute % 15 == 0 && _gameTime.Minute != _lastDisplayedMinute)
         {
             _timeText.text = _gameTime.ToString("HH:mm");
-            _lastDisplayedMinute = currentMinute; // Запоминаем последнее отображённое значение
+            _lastDisplayedMinute = _gameTime.Minute;
         }
+
+        if (_gameTime.Day != _lastDisplayedDay && _gameTime.Hour == 0 && _gameTime.Minute == 0)
+        {
+            _dayOfWeekText.text = _gameTime.ToString("dddd");
+            _lastDisplayedDay = _gameTime.Day;
+        }
+    }
+
+    private void ForceUpdateAllUI()
+    {
+        _timeText.text = _gameTime.ToString("HH:mm");
+        _dayOfWeekText.text = _gameTime.ToString("dddd");
+        _lastDisplayedMinute = _gameTime.Minute;
+        _lastDisplayedDay = _gameTime.Day;
     }
 }

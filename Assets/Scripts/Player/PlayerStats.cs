@@ -17,14 +17,16 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float thirstIncreaseRate;
     [SerializeField] private float defaultThirstIncreaseRate = 0.4f;
 
-    [Header("Настройки скорости")]
-    [SerializeField] private float minMoveSpeed = 10f;
-    [SerializeField] private float maxMoveSpeed = 20f; // Добавлено максимальное значение скорости
-    [SerializeField] private float stressSpeedMultiplier = 0.5f;
 
     [Header("Финансы")]
     [SerializeField] private float baseMoneyPerSecond = 1f;
     [SerializeField] private float coffeeMoneyBoost = 5f; // Множитель денег при эффекте кофе
+
+
+    [Header("Настройки скорости")]
+    [SerializeField] private float minMoveSpeed = 10f;
+    [SerializeField] private float maxMoveSpeed = 20f; // Добавлено максимальное значение скорости
+    [SerializeField] private float stressSpeedMultiplier = 0.5f;
 
     [Header("Дополнительные эффекты")]
     [SerializeField] private float coffeeSpeedBoost = 2f; // Множитель скорости (теперь 2x вместо 3)
@@ -42,7 +44,6 @@ public class PlayerStats : MonoBehaviour
     private float _currentStressLevel;
     private float _currentStarveLevel;
     private float _currentThirstLevel;
-    private float _currentMoney;
 
     private void Awake()
     {
@@ -50,7 +51,6 @@ public class PlayerStats : MonoBehaviour
         _currentStarveLevel = 0;
         _currentThirstLevel = 0;
         _currentStressLevel = 0;
-        _currentMoney = 0;
 
         stressIncreaseRate = defaultStressIncreaseRate;
         hungerIncreaseRate = defaultHungerIncreaseRate;
@@ -70,8 +70,9 @@ public class PlayerStats : MonoBehaviour
     private void UpdateFinancialStatus()
     {
         float stressFactor = 1 - (_currentStressLevel / maxStressLevel);
-        float moneyEarned = baseMoneyPerSecond * stressFactor * Time.deltaTime;
-        _currentMoney += moneyEarned;
+        MoneyManager.Instance.AddMoney(baseMoneyPerSecond * stressFactor * Time.deltaTime);
+        //float moneyEarned = baseMoneyPerSecond * stressFactor * Time.deltaTime;
+        //_currentMoney += moneyEarned;
     }
 
     private void UpdateCurrentState(PlayerStates newState)
@@ -161,7 +162,6 @@ public class PlayerStats : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public float GetCurrentMoney() => _currentMoney;
     public float GetStressRatio() => _currentStressLevel / maxStressLevel;
     public float GetStarveRatio() => _currentStarveLevel / maxStarveLevel;
     public float GetThirstRatio() => _currentThirstLevel / maxThirstLevel;

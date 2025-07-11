@@ -18,6 +18,7 @@ TagManager:
   - SmokePoint
   - WorkTable
   - GameTimer
+  - BusStopPoint
   layers:
   - Default
   - TransparentFX

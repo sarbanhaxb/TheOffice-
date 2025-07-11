@@ -32,7 +32,6 @@ public class PlayerVisual : MonoBehaviour, EntityVisual
     [SerializeField] private Image stressBar;
     [SerializeField] private Image starveBar;
     [SerializeField] private Image thirstBar;
-    [SerializeField] private TMP_Text Money;
 
     [Header("Позиции интерактивности")]
     [SerializeField] private GameObject presentPosition;
@@ -51,7 +50,6 @@ public class PlayerVisual : MonoBehaviour, EntityVisual
     private void FixedUpdate()
     {
         UpdatePlayerDirection();
-        UpdateFinanceState();
         UpdateStatsScale();
     }
 
@@ -61,9 +59,6 @@ public class PlayerVisual : MonoBehaviour, EntityVisual
         starveBar.fillAmount = PlayerStats.Instance.GetStarveRatio();
         thirstBar.fillAmount = PlayerStats.Instance.GetThirstRatio();
     }
-
-    
-    private void UpdateFinanceState() => Money.text = "$ " + Math.Round(PlayerStats.Instance.GetCurrentMoney(), 2).ToString();
 
     private void UpdatePlayerDirection()
     {

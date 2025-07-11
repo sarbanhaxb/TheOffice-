@@ -20,8 +20,7 @@ public class PlayerCurrentState : MonoBehaviour
     {
         currentState = newState;
         OnStateChanged?.Invoke(newState);
-        x++;
-        Debug.Log($"Метод вызван {x} раз.");
+        Debug.Log($"Метод вызван {x++} раз.");
     }
 
     private void Update()
