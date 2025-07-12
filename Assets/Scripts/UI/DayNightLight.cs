@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
-using System;
 using UnityEngine.Rendering.Universal;
 
 public class DayNightLight : MonoBehaviour
@@ -9,13 +9,21 @@ public class DayNightLight : MonoBehaviour
     [SerializeField] private Light2D globalLight;
     [SerializeField] private float minIntensity = 0.2f;
     [SerializeField] private float maxIntensity = 1f;
-    [SerializeField] private Color nightColor = new Color(0.4f, 0.4f, 0.8f);
-    [SerializeField] private Color dayColor = Color.white;
+
+    [Header("Daylight Colors")]
+    [SerializeField] private Color midnightColor = new Color(0.05f, 0.05f, 0.15f);
+    [SerializeField] private Color dawnColor = new Color(0.3f, 0.3f, 0.5f);
+    [SerializeField] private Color sunriseColor = new Color(1f, 0.7f, 0.4f);
+    [SerializeField] private Color dayColor = new Color(1f, 0.95f, 0.9f);
+    [SerializeField] private Color sunsetColor = new Color(1f, 0.5f, 0.3f);
+    [SerializeField] private Color duskColor = new Color(0.2f, 0.2f, 0.4f);
 
     [Header("Time Settings")]
-    [SerializeField] private int sunriseHour = 6;  // Рассвет в 6:00
-    [SerializeField] private int sunsetHour = 18;  // Закат в 18:00
-    [SerializeField] private float transitionDuration = 2f; // Часы на переход день/ночь
+    [SerializeField, Range(0, 24)] private float dawnStartTime = 4f;    // Начало рассвета
+    [SerializeField, Range(0, 24)] private float sunriseTime = 6f;     // Восход солнца
+    [SerializeField, Range(0, 24)] private float fullDayTime = 8f;     // Полный день
+    [SerializeField, Range(0, 24)] private float sunsetStartTime = 18f; // Начало заката
+    [SerializeField, Range(0, 24)] private float duskEndTime = 21f;     // Конец сумерек
 
     private void Update()
     {
@@ -26,36 +34,63 @@ public class DayNightLight : MonoBehaviour
     private void UpdateLighting(DateTime time)
     {
         float currentHour = time.Hour + time.Minute / 60f;
-        float lightValue = CalculateLightValue(currentHour);
+        (Color color, float intensity) = CalculateLightParameters(currentHour);
 
-        globalLight.intensity = Mathf.Lerp(minIntensity, maxIntensity, lightValue);
-        globalLight.color = Color.Lerp(nightColor, dayColor, lightValue);
+        globalLight.color = color;
+        globalLight.intensity = intensity;
     }
 
-    private float CalculateLightValue(float currentHour)
+    private (Color color, float intensity) CalculateLightParameters(float currentHour)
     {
-        // Нормализуем время в циклический формат (0-24)
         currentHour %= 24;
 
-        // Рассвет начинается в sunriseHour, длится transitionDuration часов
-        if (currentHour >= sunriseHour && currentHour <= sunriseHour + transitionDuration)
+        // Ночь (полночь → рассвет)
+        if (currentHour < dawnStartTime)
         {
-            return Mathf.InverseLerp(sunriseHour, sunriseHour + transitionDuration, currentHour);
+            float t = NormalizedTime(0, dawnStartTime, currentHour);
+            return (Color.Lerp(midnightColor, dawnColor, t),
+                    Mathf.Lerp(minIntensity, minIntensity * 1.2f, t));
         }
-        // Закат начинается в sunsetHour, длится transitionDuration часов
-        else if (currentHour >= sunsetHour && currentHour <= sunsetHour + transitionDuration)
+        // Рассвет (начало → восход)
+        else if (currentHour < sunriseTime)
         {
-            return 1f - Mathf.InverseLerp(sunsetHour, sunsetHour + transitionDuration, currentHour);
+            float t = NormalizedTime(dawnStartTime, sunriseTime, currentHour);
+            return (Color.Lerp(dawnColor, sunriseColor, t),
+                    Mathf.Lerp(minIntensity * 1.2f, maxIntensity * 0.6f, t));
         }
-        // День (между рассветом и закатом)
-        else if (currentHour > sunriseHour + transitionDuration && currentHour < sunsetHour)
+        // Утро (восход → полный день)
+        else if (currentHour < fullDayTime)
         {
-            return 1f;
+            float t = NormalizedTime(sunriseTime, fullDayTime, currentHour);
+            return (Color.Lerp(sunriseColor, dayColor, t),
+                    Mathf.Lerp(maxIntensity * 0.6f, maxIntensity, t));
         }
-        // Ночь (в остальное время)
+        // День (полный день → начало заката)
+        else if (currentHour < sunsetStartTime)
+        {
+            return (dayColor, maxIntensity);
+        }
+        // Закат (начало → конец)
+        else if (currentHour < duskEndTime)
+        {
+            float t = NormalizedTime(sunsetStartTime, duskEndTime, currentHour);
+            return (Color.Lerp(dayColor, duskColor, t),
+                    Mathf.Lerp(maxIntensity, minIntensity * 1.2f, t));
+        }
+        // Вечер (конец заката → полночь)
         else
         {
-            return 0f;
+            float t = NormalizedTime(duskEndTime, 24, currentHour);
+            return (Color.Lerp(duskColor, midnightColor, t),
+                    Mathf.Lerp(minIntensity * 1.2f, minIntensity, t));
         }
+    }
+
+    // Плавная нормализация времени с использованием кривой Безье
+    private float NormalizedTime(float start, float end, float current)
+    {
+        float t = Mathf.Clamp01((current - start) / (end - start));
+        // Кривая Безье для более плавных переходов
+        return t * t * (3f - 2f * t);
     }
 }

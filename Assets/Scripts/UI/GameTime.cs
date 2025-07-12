@@ -9,15 +9,16 @@ public class GameTime : MonoBehaviour
 
 
     [Header("Time Settings")]
-    [SerializeField] private float _realSecondsPerGameHour = 60f;
+    [SerializeField] private float realSecondsPerGameHour = 60f;
     [Tooltip("Скорости ускорения времени: 1x (нормальная), 2x, 4x")]
-    [SerializeField] private float[] _timeSpeedMultipliers = { 1f, 2f, 4f };
-    [SerializeField] private Button _speedButton;
-    [SerializeField] private TMP_Text _speedButtonText;
+    [SerializeField] private float[] timeSpeedMultipliers = { 1f, 2f, 4f };
+    [SerializeField] private Button speedButton;
+    [SerializeField] private TMP_Text speedButtonText;
+    [SerializeField] private DayPart currentDayPart;
 
     [Header("UI Elements")]
-    [SerializeField] private TMP_Text _timeText;
-    [SerializeField] private TMP_Text _dayOfWeekText;
+    [SerializeField] private TMP_Text timeText;
+    [SerializeField] private TMP_Text dayOfWeekText;
 
     private DateTime _gameTime;
     private int _currentSpeedIndex = 0;
@@ -31,43 +32,66 @@ public class GameTime : MonoBehaviour
     {
         Instance = this;
 
+        currentDayPart = DayPart.morning;
+
         // Устанавливаем нормальную скорость по умолчанию
         Time.timeScale = 1f;
         _currentSpeedIndex = 0;
 
         _gameTime = new DateTime(2025, 1, 1, 8, 0, 0);
-        _speedButton.onClick.AddListener(ToggleTimeSpeed);
+        speedButton.onClick.AddListener(ToggleTimeSpeed);
         UpdateSpeedButtonText();
         CheckEveningTime();
         ForceUpdateAllUI();
     }
 
     public DateTime GetGameTime() => _gameTime;
+    public DayPart GetCurrentDayPart() => currentDayPart;
 
     private void CheckEveningTime()
     {
-        if (_gameTime.Hour == 17 && _gameTime.Minute == 0 && !_isEveningTriggered)
+        int gameHour = _gameTime.Hour;
+
+        if ((gameHour >= 8 && gameHour < 13) || (gameHour >= 14 && gameHour < 17))
         {
-            OnEveningTime?.Invoke();
-            _isEveningTriggered = true;
-        }
-        else if (_gameTime.Hour == 0 && _gameTime.Minute == 0)
-        {
+            currentDayPart = DayPart.morning;
             _isEveningTriggered = false;
+        }
+        else if (gameHour >= 13 && gameHour <= 14)
+        {
+            currentDayPart = DayPart.dinner;
+            _isEveningTriggered = false;
+        }
+        else if (gameHour >= 17 && gameHour < 21)
+        {
+            currentDayPart = DayPart.evening;
+            if (!_isEveningTriggered)
+            {
+                OnEveningTime?.Invoke();
+                _isEveningTriggered = true;
+            }
+        }
+        else
+        {
+            currentDayPart = DayPart.night;
+            if (gameHour == 8) // Сброс флага при наступлении утра
+            {
+                _isEveningTriggered = false;
+            }
         }
     }
 
     private void Update()
     {
-        _gameTime = _gameTime.AddSeconds(Time.unscaledDeltaTime * (60f / _realSecondsPerGameHour) * Time.timeScale);
+        _gameTime = _gameTime.AddSeconds(Time.unscaledDeltaTime * (60f / realSecondsPerGameHour) * Time.timeScale);
         UpdateUITexts();
         CheckEveningTime();
     }
 
     private void ToggleTimeSpeed()
     {
-        _currentSpeedIndex = (_currentSpeedIndex + 1) % _timeSpeedMultipliers.Length;
-        Time.timeScale = _timeSpeedMultipliers[_currentSpeedIndex];
+        _currentSpeedIndex = (_currentSpeedIndex + 1) % timeSpeedMultipliers.Length;
+        Time.timeScale = timeSpeedMultipliers[_currentSpeedIndex];
         UpdateSpeedButtonText();
         // Можно добавить визуальную/звуковую обратную связь
         // Debug.Log($"Time scale changed to: {Time.timeScale}x");
@@ -75,16 +99,16 @@ public class GameTime : MonoBehaviour
 
     private void UpdateSpeedButtonText()
     {
-        _speedButtonText.text = $"×{Time.timeScale}";
+        speedButtonText.text = $"×{Time.timeScale}";
 
         // Дополнительное визуальное выделение высокой скорости
         if (Time.timeScale >= 16f)
         {
-            _speedButtonText.color = Color.red;
+            speedButtonText.color = Color.red;
         }
         else
         {
-            _speedButtonText.color = Color.white;
+            speedButtonText.color = Color.black;
         }
     }
 
@@ -92,21 +116,21 @@ public class GameTime : MonoBehaviour
     {
         if (_gameTime.Minute % 15 == 0 && _gameTime.Minute != _lastDisplayedMinute)
         {
-            _timeText.text = _gameTime.ToString("HH:mm");
+            timeText.text = _gameTime.ToString("HH:mm");
             _lastDisplayedMinute = _gameTime.Minute;
         }
 
         if (_gameTime.Day != _lastDisplayedDay && _gameTime.Hour == 0 && _gameTime.Minute == 0)
         {
-            _dayOfWeekText.text = _gameTime.ToString("dddd");
+            dayOfWeekText.text = _gameTime.ToString("dddd");
             _lastDisplayedDay = _gameTime.Day;
         }
     }
 
     private void ForceUpdateAllUI()
     {
-        _timeText.text = _gameTime.ToString("HH:mm");
-        _dayOfWeekText.text = _gameTime.ToString("dddd");
+        timeText.text = _gameTime.ToString("HH:mm");
+        dayOfWeekText.text = _gameTime.ToString("dddd");
         _lastDisplayedMinute = _gameTime.Minute;
         _lastDisplayedDay = _gameTime.Day;
     }

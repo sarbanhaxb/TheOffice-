@@ -99,9 +99,9 @@ public class NPCStats : MonoBehaviour
                 thirstIncreaseRate = 3f; // Жажда растёт (кофе обезвоживает)
                 break;
             case NPCStates.GoHome:
-                _currentStarveLevel = maxStarveLevel;
-                _currentStressLevel = maxStressLevel;
-                _currentThirstLevel = maxThirstLevel;
+                _currentStarveLevel = 0;
+                _currentStressLevel = 0;
+                _currentThirstLevel = 0;
                 break;
         }
 

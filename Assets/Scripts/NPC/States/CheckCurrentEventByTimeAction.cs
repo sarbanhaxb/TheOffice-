@@ -8,7 +8,7 @@ using Unity.Properties;
 [NodeDescription(name: "Check current event by time", story: "Check [current] by [time]", category: "Action", id: "c340077a9e26e416f837eebb4fea4cb3")]
 public partial class CheckCurrentEventByTimeAction : Action
 {
-    [SerializeReference] public BlackboardVariable<WorkDaysEvent> Current;
+    [SerializeReference] public BlackboardVariable<DayPart> Current;
     [SerializeReference] public BlackboardVariable<string> Time;
     protected override Status OnStart()
     {
@@ -20,15 +20,15 @@ public partial class CheckCurrentEventByTimeAction : Action
 
         if (currentTime >= morning && currentTime < dinnerStart && currentTime > dinnerEnd && currentTime < evening)
         {
-            Current.Value = WorkDaysEvent.morning;
+            Current.Value = DayPart.morning;
         }
         if (currentTime > dinnerStart && currentTime < dinnerEnd)
         {
-            Current.Value = WorkDaysEvent.dinner;
+            Current.Value = DayPart.dinner;
         }
         if (currentTime > evening && currentTime < morning)
         {
-            Current.Value = WorkDaysEvent.evening;
+            Current.Value = DayPart.evening;
         }
         return Status.Success;
     }
