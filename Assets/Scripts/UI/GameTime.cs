@@ -28,7 +28,8 @@ public class GameTime : MonoBehaviour
 
     public static event Action OnEveningTime;
 
-    private void Start()
+
+    private void Awake()
     {
         Instance = this;
 
@@ -38,7 +39,7 @@ public class GameTime : MonoBehaviour
         Time.timeScale = 1f;
         _currentSpeedIndex = 0;
 
-        _gameTime = new DateTime(2025, 1, 1, 8, 0, 0);
+        _gameTime = new DateTime(2025, 1, 1, 7, 30, 0);
         speedButton.onClick.AddListener(ToggleTimeSpeed);
         UpdateSpeedButtonText();
         CheckEveningTime();
@@ -51,8 +52,15 @@ public class GameTime : MonoBehaviour
     private void CheckEveningTime()
     {
         int gameHour = _gameTime.Hour;
+        int gameMinute = _gameTime.Minute;
+        bool isPreMorningTime = (gameHour == 7 && gameMinute >= 30) || (gameHour == 8 && gameMinute == 0);
 
-        if ((gameHour >= 8 && gameHour < 13) || (gameHour >= 14 && gameHour < 17))
+        if (isPreMorningTime)
+        {
+            currentDayPart = DayPart.premorning;
+            _isEveningTriggered = false;
+        }
+        else if ((gameHour >= 8 && gameHour < 13) || (gameHour >= 14 && gameHour < 17))
         {
             currentDayPart = DayPart.morning;
             _isEveningTriggered = false;
@@ -74,7 +82,7 @@ public class GameTime : MonoBehaviour
         else
         {
             currentDayPart = DayPart.night;
-            if (gameHour == 8) // Сброс флага при наступлении утра
+            if (gameHour == 8 && gameMinute == 0) // Сброс флага при наступлении утра
             {
                 _isEveningTriggered = false;
             }

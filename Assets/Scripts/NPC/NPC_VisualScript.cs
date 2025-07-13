@@ -78,16 +78,19 @@ public class NPC_VisualScript : MonoBehaviour, EntityVisual
     }
 
 
-    public void HideBarAnimation()
+    public void ShowBarAnimation()
     {
         UIelement.enabled = true;
         _spriteRenderer.color = Color.green;
+        Debug.Log($"В меня ({gameObject.name}) тыкнули");
     }
 
-    public void ShowBarAnimation()
+    public void HideBarAnimation()
     {
         UIelement.enabled = false;
         _spriteRenderer.color = _originalColor;
+        Debug.Log($"В не меня ({gameObject.name}) тыкнули");
+
     }
     public void SetRandom(int count) => _animator.SetFloat("Random", Random.Range(0, count));
 

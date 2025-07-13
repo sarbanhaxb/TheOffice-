@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7858295311868756916}
   - component: {fileID: 3381480041660732058}
   - component: {fileID: 407481701477365260}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Cooler
   m_TagString: Cooler
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 217929980915910191}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: DrinkPoint
   m_TagString: DrinkPoint
   m_Icon: {fileID: 0}

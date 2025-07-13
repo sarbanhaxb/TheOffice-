@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 1551863909817022851}
   - component: {fileID: 3695864462779987500}
   - component: {fileID: 5436311363430127372}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Coffee mug
   m_TagString: Untagged
   m_Icon: {fileID: 0}

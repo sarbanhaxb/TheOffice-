@@ -35,6 +35,10 @@ public class PlayerAction : MonoBehaviour
 
             if (hit != null && (hit.CompareTag("Player") || hit.CompareTag("NPC")))
             {
+                if (_selectedObject != null)
+                {
+                    _selectedObject.HideBarAnimation();
+                }
                 _selectedObject = hit.TryGetComponent<EntityVisual>(out var t) ? t : null;
                 _selectedObject.ShowBarAnimation();
             }
