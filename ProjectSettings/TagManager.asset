@@ -23,6 +23,8 @@ TagManager:
   - BusStartPosition
   - BusEndPosition
   - Bus
+  - ContextMenu
+  - Chair
   layers:
   - Default
   - TransparentFX

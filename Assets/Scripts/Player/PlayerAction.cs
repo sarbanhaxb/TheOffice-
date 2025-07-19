@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,13 +46,23 @@ public class PlayerAction : MonoBehaviour
             else if (_selectedObject != null)
             {
                 _selectedObject.HideBarAnimation();
-                Debug.Log(" лик не попал в NPC. Pos: " + mouseWorldPos);
+                //Debug.Log(" лик не попал в NPC. Pos: " + mouseWorldPos);
                 _selectedObject = null;
             }
         }
     }
     private void OnContextMenu(InputAction.CallbackContext context)
     {
+        if (context.phase == InputActionPhase.Performed && _selectedObject != null)
+        {
+            Vector2 mouseWorldPos = _mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
+            Collider2D hit = Physics2D.OverlapPoint(mouseWorldPos, _layerMask);
+
+            if (hit != null && (hit.CompareTag("Player") || hit.CompareTag("NPC")))
+            {
+                Debug.Log(hit.tag);
+            }
+        }
     }
 }
