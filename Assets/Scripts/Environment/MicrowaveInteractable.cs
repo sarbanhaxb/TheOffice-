@@ -6,6 +6,7 @@ public class MicrowaveInteractable : MonoBehaviour, IInteractable
     [SerializeField] private GameObject microwaveArea;
     [SerializeField] private GameObject foodPrefab;
     [SerializeField] private Vector3 foodSpawnPoint;
+    [SerializeField] private AudioSource microwaveSound;
 
     [SerializeField] private float interactionPriority = 5f;
 
@@ -16,11 +17,16 @@ public class MicrowaveInteractable : MonoBehaviour, IInteractable
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        microwaveSound = GetComponent<AudioSource>();
     }
 
     public void Interact()
     {
-        _animator.SetBool(IS_MAKE_FOOD, true);
+        if (!_animator.GetBool(IS_MAKE_FOOD))
+        {
+            _animator.SetBool(IS_MAKE_FOOD, true);
+            microwaveSound.Play();
+        }
     }
     public void AddFood() => Instantiate(foodPrefab, foodSpawnPoint, Quaternion.identity);
     public void ShowHint()

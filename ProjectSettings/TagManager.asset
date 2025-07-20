@@ -25,6 +25,9 @@ TagManager:
   - Bus
   - ContextMenu
   - Chair
+  - MeetingPoint
+  - NavMeshSurface
+  - PresentPosition
   layers:
   - Default
   - TransparentFX

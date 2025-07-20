@@ -3,12 +3,16 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
-public class NPCStats : MonoBehaviour
+public class NPC_Stats : MonoBehaviour
 {
     NPC_CurrentState _currentState;
 
     [Header("Финансы")]
     [SerializeField] private float baseMoneyPerSecond = 1f;
+    [SerializeField] private float currentSalary = 1f;
+    [SerializeField] private float minSalary = 0.5f;
+    [SerializeField] private float maxSalary = 3f;
+    [SerializeField] private float salaryStressModifier = 0.5f;
     [SerializeField] private float coffeeMoneyBoost = 5f; // Множитель денег при эффекте кофе
 
 
@@ -58,7 +62,7 @@ public class NPCStats : MonoBehaviour
     private void UpdateFinancialStatus()
     {
         float stressFactor = 1 - (_currentStressLevel / maxStressLevel);
-        MoneyManager.Instance.AddMoney(baseMoneyPerSecond * stressFactor * Time.deltaTime);
+        MoneyManager.Instance.AddMoney(baseMoneyPerSecond * currentSalary * stressFactor * Time.deltaTime);
     }
 
     private void UpdateStats()
@@ -69,17 +73,22 @@ public class NPCStats : MonoBehaviour
         bool isSmoking = _animator.GetBool("IsSmoking");
         bool isEating = _animator.GetBool("IsEating");
         bool isDrinkingCoffee = _animator.GetBool("IsDrinkCoffee");
+        bool isMeeting = _animator.GetBool("IsMeeting");
 
         // Сбрасываем все значения по умолчанию
         stressIncreaseRate = defaultStressIncreaseRate;
         thirstIncreaseRate = defaultThirstIncreaseRate;
         hungerIncreaseRate = defaultHungerIncreaseRate;
 
+        // Применяем модификатор зарплаты к стрессу (чем выше зарплата, тем медленнее растёт стресс)
+        float salaryStressFactor = 1 + (maxSalary - currentSalary) * salaryStressModifier;
+        stressIncreaseRate *= salaryStressFactor;
+
         // Обрабатываем каждое состояние
         switch (currentState)
         {
             case NPCStates.GoWorking when isWorking:
-                stressIncreaseRate = 3f; // Стресс растёт при работе
+                stressIncreaseRate = 3f * salaryStressFactor; // Стресс растёт при работе
                 break;
 
             case NPCStates.GoDrinkWater when isDrinkingWater:
@@ -103,6 +112,9 @@ public class NPCStats : MonoBehaviour
                 _currentStressLevel = 0;
                 _currentThirstLevel = 0;
                 break;
+            case NPCStates.GoMeeting when isMeeting:
+                stressIncreaseRate = -5f; //Стресс снижается
+                break;
         }
 
         // Обновляем уровни потребностей
@@ -111,11 +123,42 @@ public class NPCStats : MonoBehaviour
         _currentThirstLevel = Mathf.Clamp(_currentThirstLevel + thirstIncreaseRate * Time.deltaTime, 0f, maxThirstLevel);
     }
 
+    // Методы для изменения зарплаты
+    public void DecreaseSalary()
+    {
+        if (currentSalary > minSalary)
+        {
+            currentSalary -= 0.5f;
+        } 
+    }
+    public void IncreaseSalary()
+    {
+        if (currentSalary < maxSalary)
+        {
+            currentSalary += 0.5f;
+        }
+    }
+
+
+    private void OnEnable()
+    {
+        GameTime.OnNewHour += AddCurrentSalaryDebt;
+    }
+    private void OnDisable()
+    {
+        GameTime.OnNewHour -= AddCurrentSalaryDebt;
+    }
+
+    private void AddCurrentSalaryDebt()
+    {
+        MoneyManager.Instance.AddSalaryDebt(currentSalary);
+    }
+
+    public float GetCurrentSalary() => currentSalary;
     public float GetStressRatio() => _currentStressLevel / maxStressLevel;
     public float GetStarveRatio() => _currentStarveLevel / maxStarveLevel;
     public float GetThirstRatio() => _currentThirstLevel / maxThirstLevel;
     public float GetCurrentStress() => _currentStressLevel;
     public float GetCurrentStarve() => _currentStarveLevel;
     public float GetCurrentThirst() => _currentThirstLevel;
-
 }

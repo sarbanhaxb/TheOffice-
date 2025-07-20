@@ -13,7 +13,7 @@ public partial class NotWorkingAction : Action
     [SerializeReference] public BlackboardVariable<Animator> Worktable;
     protected override Status OnStart()
     {
-        if (!CurrentState.Value.Equals(NPCStates.Value) && Worktable.Value.GetBool("IsWorking"))
+        if (!CurrentState.Value.Equals(NPCStates.Value) && Worktable.Value.GetBool("IsWorking") && Worktable.Value != null)
         {
             Worktable.Value.SetBool("IsWorking", false);
             Worktable.Value.enabled = false;

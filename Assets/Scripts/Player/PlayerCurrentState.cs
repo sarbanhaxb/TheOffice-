@@ -8,8 +8,6 @@ public class PlayerCurrentState : MonoBehaviour
     public event Action<PlayerStates> OnStateChanged;
     [SerializeField] private PlayerStates currentState;
 
-    static int x = 1;
-
     private void Awake()
     {
         currentState = PlayerStates.Idle;

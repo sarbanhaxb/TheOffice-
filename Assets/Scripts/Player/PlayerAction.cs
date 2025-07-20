@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerAction : MonoBehaviour
@@ -28,6 +29,9 @@ public class PlayerAction : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
+
+            if (EventSystem.current.IsPointerOverGameObject()) { return; }
+
             Vector2 mouseWorldPos = _mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
             Collider2D hit = Physics2D.OverlapPoint(mouseWorldPos, _layerMask);
@@ -43,7 +47,7 @@ public class PlayerAction : MonoBehaviour
                 _selectedObject = hit.TryGetComponent<EntityVisual>(out var t) ? t : null;
                 _selectedObject.ShowBarAnimation();
             }
-            else if (_selectedObject != null)
+            else if (_selectedObject != null) 
             {
                 _selectedObject.HideBarAnimation();
                 //Debug.Log(" лик не попал в NPC. Pos: " + mouseWorldPos);
@@ -59,10 +63,10 @@ public class PlayerAction : MonoBehaviour
 
             Collider2D hit = Physics2D.OverlapPoint(mouseWorldPos, _layerMask);
 
-            if (hit != null && (hit.CompareTag("Player") || hit.CompareTag("NPC")))
-            {
-                Debug.Log(hit.tag);
-            }
+            //if (hit != null && (hit.CompareTag("Player") || hit.CompareTag("NPC")))
+            //{
+            //    Debug.Log(hit.tag);
+            //}
         }
     }
 }

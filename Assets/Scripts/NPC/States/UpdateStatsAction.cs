@@ -11,7 +11,7 @@ public partial class UpdateStatsAction : Action
     [SerializeReference] public BlackboardVariable<float> Stress;
     [SerializeReference] public BlackboardVariable<float> Starve;
     [SerializeReference] public BlackboardVariable<float> Thirst;
-    [SerializeReference] public BlackboardVariable<NPCStats> NPCStats;
+    [SerializeReference] public BlackboardVariable<NPC_Stats> NPCStats;
 
     //protected override Status OnStart()
     //{

@@ -25,14 +25,17 @@ public class GameTime : MonoBehaviour
     private int _lastDisplayedMinute = -1;
     private int _lastDisplayedDay = -1;
     private bool _isEveningTriggered = false;
+    private int _lastHour;
+    private string _lastDay;
 
     public static event Action OnEveningTime;
+    public static event Action OnNewDay;
+    public static event Action OnNewHour;
 
 
     private void Awake()
     {
         Instance = this;
-
         currentDayPart = DayPart.morning;
 
         // Устанавливаем нормальную скорость по умолчанию
@@ -44,6 +47,9 @@ public class GameTime : MonoBehaviour
         UpdateSpeedButtonText();
         CheckEveningTime();
         ForceUpdateAllUI();
+
+        _lastHour = _gameTime.Hour;
+        _lastDay = _gameTime.ToString("dddd");
     }
 
     public DateTime GetGameTime() => _gameTime;
@@ -89,11 +95,34 @@ public class GameTime : MonoBehaviour
         }
     }
 
+    public void CheckNewHour()
+    {
+        int currentHour = _gameTime.Hour;
+        if (currentHour != _lastHour && (currentDayPart == DayPart.morning || currentDayPart == DayPart.dinner))
+        {
+            OnNewHour?.Invoke();
+        }
+        _lastHour = currentHour;
+    }
+
+    private void CheckNewDay()
+    {
+        string day = _gameTime.ToString("dddd");
+        if (_lastDay != day)
+        {
+            OnNewDay?.Invoke();
+            _lastDay = day;
+        }
+    }
+
     private void Update()
     {
         _gameTime = _gameTime.AddSeconds(Time.unscaledDeltaTime * (60f / realSecondsPerGameHour) * Time.timeScale);
+
         UpdateUITexts();
         CheckEveningTime();
+        CheckNewDay();
+        CheckNewHour();
     }
 
     private void ToggleTimeSpeed()
@@ -130,7 +159,7 @@ public class GameTime : MonoBehaviour
 
         if (_gameTime.Day != _lastDisplayedDay && _gameTime.Hour == 0 && _gameTime.Minute == 0)
         {
-            dayOfWeekText.text = _gameTime.ToString("dddd");
+            dayOfWeekText.text = _gameTime.ToString("dddd", new System.Globalization.CultureInfo("en-US"));
             _lastDisplayedDay = _gameTime.Day;
         }
     }
@@ -138,7 +167,7 @@ public class GameTime : MonoBehaviour
     private void ForceUpdateAllUI()
     {
         timeText.text = _gameTime.ToString("HH:mm");
-        dayOfWeekText.text = _gameTime.ToString("dddd");
+        dayOfWeekText.text = _gameTime.ToString("dddd", new System.Globalization.CultureInfo("en-US"));
         _lastDisplayedMinute = _gameTime.Minute;
         _lastDisplayedDay = _gameTime.Day;
     }

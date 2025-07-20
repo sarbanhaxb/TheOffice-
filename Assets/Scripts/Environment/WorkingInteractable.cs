@@ -13,12 +13,12 @@ public class WorkingInteractable : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (PlayerCurrentState.Instance.GetCurrentState() != PlayerStates.Working && PlayerStats.Instance.GetStressRatio() != 1f)
+        if (PlayerCurrentState.Instance.GetCurrentState() != PlayerStates.Working && PlayerStats.Instance.GetStressRatio() != 1f && GameTime.Instance.GetCurrentDayPart() == DayPart.morning)
         {
             PlayerCurrentState.Instance.SetState(PlayerStates.Working);
             workPlaceHint.GetComponent<TMP_Text>().text = "Press E to stop working";
         }
-        else if (PlayerCurrentState.Instance.GetCurrentState() != PlayerStates.Working && PlayerStats.Instance.GetStressRatio() == 1f)
+        else if ((PlayerCurrentState.Instance.GetCurrentState() != PlayerStates.Working && PlayerStats.Instance.GetStressRatio() == 1f) || GameTime.Instance.GetCurrentDayPart() != DayPart.morning)
         {
             PlayerCurrentState.Instance.SetState(PlayerStates.Tired);
         }

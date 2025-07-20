@@ -10,7 +10,6 @@ public partial class FlipReverseAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> SpriteRenderer;
     [SerializeReference] public BlackboardVariable<bool> Reverse;
-
     protected override Status OnStart()
     {
         SpriteRenderer.Value.GetComponent<SpriteRenderer>().flipX = Reverse;

@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,12 +12,15 @@ public class NPC_VisualScript : MonoBehaviour, EntityVisual
     [SerializeField] private Image stressBar;
     [SerializeField] private Image starveBar;
     [SerializeField] private Image thirstBar;
+    [SerializeField] private Button salaryUp;
+    [SerializeField] private Button salaryDown;
+    [SerializeField] private TMP_Text currentSalary;
 
     private Animator _animator;
     private NPC_CurrentState _currentState;
     private NavMeshAgent _agent;
     private SpriteRenderer _spriteRenderer;
-    private NPCStats _npcStats;
+    private NPC_Stats _npcStats;
     private Color _originalColor;
 
     float lastY = 0f;
@@ -26,12 +30,14 @@ public class NPC_VisualScript : MonoBehaviour, EntityVisual
 
     private void Awake()
     {
-        _npcStats = GetComponent<NPCStats>();
+        _npcStats = GetComponent<NPC_Stats>();
         _animator = GetComponent<Animator>();
         _currentState = GetComponent<NPC_CurrentState>();
         _agent = GetComponent<NavMeshAgent>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _originalColor = _spriteRenderer.color;
+        salaryUp.onClick.AddListener(_npcStats.IncreaseSalary);
+        salaryDown.onClick.AddListener(_npcStats.DecreaseSalary);
     }
 
     private void Update()
@@ -45,13 +51,14 @@ public class NPC_VisualScript : MonoBehaviour, EntityVisual
         stressBar.fillAmount = _npcStats.GetStressRatio();
         starveBar.fillAmount = _npcStats.GetStarveRatio();
         thirstBar.fillAmount = _npcStats.GetThirstRatio();
+        currentSalary.text = _npcStats.GetCurrentSalary().ToString() + "$";
     }
 
 
 
     private void UpdateNPCDirection()
     {
-        if (!_animator.GetBool("IsWorking"))
+        if (!_animator.GetBool("IsWorking") && !_animator.GetBool("IsMeeting"))
         {
             Vector2 direction = _agent.velocity.normalized;
 
@@ -65,11 +72,14 @@ public class NPC_VisualScript : MonoBehaviour, EntityVisual
             _spriteRenderer.flipX = shouldFlip;
             lastFlip = shouldFlip;
         }
+        else if (_animator.GetBool("IsMeeting"))
+        {
+            _spriteRenderer.flipX = true;
+        }
         else
         {
             _spriteRenderer.flipX = false;
         }
-
     }
 
     public void ResetAnimator()
@@ -82,15 +92,12 @@ public class NPC_VisualScript : MonoBehaviour, EntityVisual
     {
         UIelement.enabled = true;
         _spriteRenderer.color = Color.green;
-        Debug.Log($"В меня ({gameObject.name}) тыкнули");
     }
 
     public void HideBarAnimation()
     {
         UIelement.enabled = false;
         _spriteRenderer.color = _originalColor;
-        Debug.Log($"В не меня ({gameObject.name}) тыкнули");
-
     }
     public void SetRandom(int count) => _animator.SetFloat("Random", Random.Range(0, count));
 
