@@ -67,6 +67,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "NextStation",
+                    "type": "Button",
+                    "id": "0f0e80ac-c123-46cd-8046-fa1a012dab7f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PrevStation",
+                    "type": "Button",
+                    "id": "d38f9c1c-bdb8-49c9-b348-511157698fb3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -254,6 +272,28 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "CameraResetPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9ba7717f-f28e-4507-bcfd-fd30261679da",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextStation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0f1aff4-f71c-4ff9-9879-7dcf2f0ef1db",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrevStation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

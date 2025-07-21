@@ -18,6 +18,7 @@ public class MicrowaveInteractable : MonoBehaviour, IInteractable
     {
         _animator = GetComponent<Animator>();
         microwaveSound = GetComponent<AudioSource>();
+        AudioManager.Instance.RegisterAudioSource(microwaveSound);
     }
 
     public void Interact()

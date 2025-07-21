@@ -130,6 +130,7 @@ public class GameTime : MonoBehaviour
         _currentSpeedIndex = (_currentSpeedIndex + 1) % timeSpeedMultipliers.Length;
         Time.timeScale = timeSpeedMultipliers[_currentSpeedIndex];
         UpdateSpeedButtonText();
+        AudioManager.Instance.UpdateAllAudioPitches(Time.timeScale);
         // Можно добавить визуальную/звуковую обратную связь
         // Debug.Log($"Time scale changed to: {Time.timeScale}x");
     }

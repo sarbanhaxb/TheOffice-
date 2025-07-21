@@ -153,6 +153,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextStation"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f0e80ac-c123-46cd-8046-fa1a012dab7f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PrevStation"",
+                    ""type"": ""Button"",
+                    ""id"": ""d38f9c1c-bdb8-49c9-b348-511157698fb3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -342,6 +360,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""CameraResetPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ba7717f-f28e-4507-bcfd-fd30261679da"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextStation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0f1aff4-f71c-4ff9-9879-7dcf2f0ef1db"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrevStation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -446,6 +486,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_ContextMenu = m_Player.FindAction("ContextMenu", throwIfNotFound: true);
         m_Player_Drag = m_Player.FindAction("Drag", throwIfNotFound: true);
         m_Player_CameraResetPosition = m_Player.FindAction("CameraResetPosition", throwIfNotFound: true);
+        m_Player_NextStation = m_Player.FindAction("NextStation", throwIfNotFound: true);
+        m_Player_PrevStation = m_Player.FindAction("PrevStation", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -537,6 +579,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ContextMenu;
     private readonly InputAction m_Player_Drag;
     private readonly InputAction m_Player_CameraResetPosition;
+    private readonly InputAction m_Player_NextStation;
+    private readonly InputAction m_Player_PrevStation;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -576,6 +620,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/CameraResetPosition".
         /// </summary>
         public InputAction @CameraResetPosition => m_Wrapper.m_Player_CameraResetPosition;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/NextStation".
+        /// </summary>
+        public InputAction @NextStation => m_Wrapper.m_Player_NextStation;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/PrevStation".
+        /// </summary>
+        public InputAction @PrevStation => m_Wrapper.m_Player_PrevStation;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -623,6 +675,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @CameraResetPosition.started += instance.OnCameraResetPosition;
             @CameraResetPosition.performed += instance.OnCameraResetPosition;
             @CameraResetPosition.canceled += instance.OnCameraResetPosition;
+            @NextStation.started += instance.OnNextStation;
+            @NextStation.performed += instance.OnNextStation;
+            @NextStation.canceled += instance.OnNextStation;
+            @PrevStation.started += instance.OnPrevStation;
+            @PrevStation.performed += instance.OnPrevStation;
+            @PrevStation.canceled += instance.OnPrevStation;
         }
 
         /// <summary>
@@ -655,6 +713,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @CameraResetPosition.started -= instance.OnCameraResetPosition;
             @CameraResetPosition.performed -= instance.OnCameraResetPosition;
             @CameraResetPosition.canceled -= instance.OnCameraResetPosition;
+            @NextStation.started -= instance.OnNextStation;
+            @NextStation.performed -= instance.OnNextStation;
+            @NextStation.canceled -= instance.OnNextStation;
+            @PrevStation.started -= instance.OnPrevStation;
+            @PrevStation.performed -= instance.OnPrevStation;
+            @PrevStation.canceled -= instance.OnPrevStation;
         }
 
         /// <summary>
@@ -905,6 +969,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCameraResetPosition(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "NextStation" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNextStation(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PrevStation" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPrevStation(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
