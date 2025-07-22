@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using JetBrains.Annotations;
+using TMPro;
+using UnityEngine.UI;
 
 public class RadioSystem : MonoBehaviour
 {
@@ -18,14 +20,33 @@ public class RadioSystem : MonoBehaviour
     private bool _isRadioOn = false;
     private float _frequencyChangeCooldown = 0;
 
+    [Header("Volume Control")]
+    [SerializeField] private Slider volumeSlider;
+
     private void Awake()
     {
-        if(audioSource == null)
+        if (audioSource == null)
         {
             audioSource = GetComponent<AudioSource>();
         }
+
+        if (volumeSlider != null)
+        {
+            volumeSlider.value = audioSource.volume;
+            volumeSlider.onValueChanged.AddListener(SetVolume);
+        }
+
         TurnOff();
     }
+
+    public void SetVolume(float volume)
+    {
+        audioSource.volume = volume;
+
+        // Сохранение громкости (опционально)
+        PlayerPrefs.SetFloat("RadioVolume", volume);
+    }
+
 
     private void Update()
     {
@@ -86,7 +107,7 @@ public class RadioSystem : MonoBehaviour
         }
 
         RadioStation station = stations[_currentStationIndex];
-        audioSource.clip = station.audioClip;
+        audioSource.clip = station.GetNextClip();
         audioSource.volume = station.volume;
         audioSource.loop = station.loop;
         audioSource.Play();

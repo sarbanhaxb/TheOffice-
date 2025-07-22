@@ -11,6 +11,9 @@ public class CoolerInteractable : MonoBehaviour, IInteractable
     private void Awake()
     {
         pourWater = GetComponent<AudioSource>();
+    }
+    private void Start()
+    {
         AudioManager.Instance.RegisterAudioSource(pourWater);
     }
 
@@ -24,6 +27,7 @@ public class CoolerInteractable : MonoBehaviour, IInteractable
         else
         {
             PlayerCurrentState.Instance.SetState(PlayerStates.Idle);
+            pourWater.Stop();
         }
     }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MicrowaveInteractable : MonoBehaviour, IInteractable
 {
@@ -7,6 +8,8 @@ public class MicrowaveInteractable : MonoBehaviour, IInteractable
     [SerializeField] private GameObject foodPrefab;
     [SerializeField] private Vector3 foodSpawnPoint;
     [SerializeField] private AudioSource microwaveSound;
+    public float maxDistance = 10f;
+    public float minVolume = 0.1f; // Минимальная громкость (не 0, чтобы звук не пропадал полностью)
 
     [SerializeField] private float interactionPriority = 5f;
 
@@ -29,6 +32,22 @@ public class MicrowaveInteractable : MonoBehaviour, IInteractable
             microwaveSound.Play();
         }
     }
+
+    private void Update()
+    {
+        if (microwaveSound.isPlaying)
+        {
+            // Вычисляем расстояние до игрока
+            float distance = Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position);
+
+            // Нормализуем расстояние от 0 до 1
+            float normalizedDistance = Mathf.Clamp01(distance / maxDistance);
+
+            // Инвертируем и применяем к громкости (чем дальше, тем тише)
+            microwaveSound.volume = Mathf.Lerp(1f, minVolume, normalizedDistance);
+        }
+    }
+
     public void AddFood() => Instantiate(foodPrefab, foodSpawnPoint, Quaternion.identity);
     public void ShowHint()
     {
