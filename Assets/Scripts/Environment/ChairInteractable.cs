@@ -1,5 +1,7 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class ChairInteractable : MonoBehaviour, IInteractable
 {
@@ -13,10 +15,21 @@ public class ChairInteractable : MonoBehaviour, IInteractable
     private Transform _originalParent;
     [SerializeField] private float dropDistance = 5f;
 
+    public bool IsOccupied = false;
+
+    private GameObject currentWorker;
 
     private void Awake()
     {
         Player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+    }
+
+    
+
+
+    public void SetOccupied(bool o)
+    {
+        IsOccupied = o;
     }
 
     public void Interact()
