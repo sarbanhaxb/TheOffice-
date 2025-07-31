@@ -2,20 +2,41 @@ using NavMeshPlus.Components;
 using TMPro;
 using UnityEngine;
 
-public class WorkTableInteractable : MonoBehaviour, IInteractable
+public class WorkTableInteractable : MonoBehaviour, IInteractable, IReservable
 {
     [SerializeField] private float interactionPriority = 10f;
     [SerializeField] private Transform Player;
     [SerializeField] private GameObject workTableHint;
     [SerializeField] private NavMeshSurface surface;
-
-
     [SerializeField] private bool isTaken = false;
 
     private Vector3 _originalPosition;
     private Transform _originalParent;
     [SerializeField] private float dropDistance = 5f;
 
+
+
+
+    private GameObject reservedBy = null;
+
+    public bool IsReserved()
+    {
+        return reservedBy != null;
+    }
+    public bool Reserve(GameObject gameObject)
+    {
+        if (!IsReserved())
+        {
+            reservedBy = gameObject;
+            return true;
+        }
+        return false;
+    }
+
+    public void Releaser()
+    {
+        reservedBy = null;
+    }
 
     private void Awake()
     {

@@ -7,12 +7,12 @@ ScriptedImporter:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: TALK_BACK
-    second: {fileID: 7400000, guid: a61fe4f8e75ecdc43ad98d4516dd9b10, type: 2}
+    second: {fileID: 7400000, guid: 2d8178e922d1ac6429bd11c66030c234, type: 2}
   - first:
       type: UnityEngine:AnimationClip
       assembly: UnityEngine.AnimationModule
       name: TALK_FRONT
-    second: {fileID: 7400000, guid: 84acebb70b04be744b7d763cefaad0af, type: 2}
+    second: {fileID: 7400000, guid: 63b2edf1126a3204584b5844fe41ff5b, type: 2}
   serializedVersion: 2
   userData: 
   assetBundleName: 
@@ -112,7 +112,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638875714767096995
+  platformSettingsDirtyTick: 638895027578451776
   textureAssetName: 
   singleSpriteImportData:
   - name: 

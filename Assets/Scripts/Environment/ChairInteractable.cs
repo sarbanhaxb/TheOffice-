@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class ChairInteractable : MonoBehaviour, IInteractable
+public class ChairInteractable : MonoBehaviour, IInteractable, IReservable
 {
     [SerializeField] private float interactionPriority = 1f;
     [SerializeField] private Transform Player;
@@ -17,20 +17,34 @@ public class ChairInteractable : MonoBehaviour, IInteractable
 
     public bool IsOccupied = false;
 
-    private GameObject currentWorker;
 
     private void Awake()
     {
         Player = GameObject.FindWithTag("Player").GetComponent<Transform>();
     }
 
+    private GameObject reservedBy = null;
+
+    public bool IsReserved()
+    {
+        return reservedBy != null;
+    }
+    public bool Reserve(GameObject gameObject)
+    {
+        if (!IsReserved())
+        {
+            reservedBy = gameObject;
+            return true;
+        }
+        return false;
+    }
+
+    public void Releaser()
+    {
+        reservedBy = null;
+    }
     
 
-
-    public void SetOccupied(bool o)
-    {
-        IsOccupied = o;
-    }
 
     public void Interact()
     {
