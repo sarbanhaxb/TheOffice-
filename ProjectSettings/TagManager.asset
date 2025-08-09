@@ -28,6 +28,7 @@ TagManager:
   - MeetingPoint
   - NavMeshSurface
   - PresentPosition
+  - MeetingRoom
   layers:
   - Default
   - TransparentFX

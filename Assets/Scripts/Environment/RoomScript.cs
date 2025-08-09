@@ -1,10 +1,13 @@
+using UnityEditor;
 using UnityEngine;
+
 
 public class RoomScript : MonoBehaviour
 {
-    [SerializeField] private PlayerInMeetingRoomEvent playerInMeetingRoom;
-    [SerializeField] private PlayerExitMeetingRoomEvent playerExitMeetingRoom;
+    public PlayerInMeetingRoomEvent playerInMeetingRoom;
+    public PlayerExitMeetingRoomEvent playerExitMeetingRoom;
     public bool isPlayerIn = false;
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
