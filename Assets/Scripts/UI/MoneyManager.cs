@@ -11,7 +11,7 @@ public class MoneyManager : MonoBehaviour
     [SerializeField] private TMP_Text _salaryDebtText;
 
     [Header("Настройки")]
-    [SerializeField] private float initialMoney = 100f;
+    [SerializeField] private float initialMoney = 0f;
 
 
     private float _currentMoney;
