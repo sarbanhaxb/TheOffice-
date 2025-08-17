@@ -7,8 +7,9 @@ public class MoneyManager : MonoBehaviour
     public static MoneyManager Instance { get; private set; }
 
     [Header("UI элемент")]
-    [SerializeField] private TMP_Text _moneyText;
-    [SerializeField] private TMP_Text _salaryDebtText;
+    [SerializeField] private TMP_Text moneyText;
+    [SerializeField] private TMP_Text salaryDebtText;
+    [SerializeField] private TMP_Text officeRent;
 
     [Header("Настройки")]
     [SerializeField] private float initialMoney = 0f;
@@ -16,16 +17,17 @@ public class MoneyManager : MonoBehaviour
 
     private float _currentMoney;
     private float _salaryDebt = 0f; // Накопленный долг по зарплатам
+    private float _officeRent = 50f;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-
         _currentMoney = initialMoney;
-        UpdateMoneyUI();
-        GameTime.OnNewDay += PaySalaryDebt;
 
+        officeRent.text = _officeRent.ToString();
+
+        UpdateMoneyUI();
     }
 
     public void AddMoney(float money)
@@ -43,31 +45,33 @@ public class MoneyManager : MonoBehaviour
     public float CurrentMoney => _currentMoney;
     private void UpdateMoneyUI()
     {
-        _moneyText.text = $"Money: ${_currentMoney:F2}";
-        _salaryDebtText.text = $"Salary Debt: ${_salaryDebt:F2}";
+        moneyText.text = $"Money: ${_currentMoney:F2}";
+        salaryDebtText.text = $"Salary Debt: ${_salaryDebt:F2}";
+        officeRent.text = $"Office rent: ${_officeRent:F2}";
         if (_salaryDebt < 0f)
         {
-            _salaryDebtText.color = Color.red;
+            salaryDebtText.color = Color.red;
         }
         else
         {
-            _salaryDebtText.color = Color.white;
+            salaryDebtText.color = Color.white;
         }
     }
 
 
     private void OnEnable()
     {
-        GameTime.OnNewDay += PaySalaryDebt;
+        GameTime.OnNewDay += PayDebt;
     }
     private void OnDisable()
     {
-        GameTime.OnNewDay -= PaySalaryDebt;
+        GameTime.OnNewDay -= PayDebt;
     }
 
-    private void PaySalaryDebt()
+    private void PayDebt()
     {
         _currentMoney -= _salaryDebt;
+        _currentMoney -= _officeRent;
         _salaryDebt = 0f;
         UpdateMoneyUI();
     }

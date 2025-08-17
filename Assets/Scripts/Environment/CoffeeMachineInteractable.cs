@@ -6,6 +6,7 @@ public class CoffeeMachineInteractable : MonoBehaviour, IInteractable
     [SerializeField] private GameObject coffeeArea;
     [SerializeField] private GameObject coffeePrefab;
     [SerializeField] private Vector3 coffeeSpawnPoint;
+    [SerializeField] private AudioSource coffeeMachineSound;
 
     [SerializeField] private float interactionPriority = 5f;
 
@@ -16,11 +17,14 @@ public class CoffeeMachineInteractable : MonoBehaviour, IInteractable
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        coffeeMachineSound = GetComponent<AudioSource>();
+        AudioManager.Instance.RegisterAudioSource(coffeeMachineSound);
     }
 
     public void Interact()
     {
         _animator.SetBool(IS_MAKE_COFFEE, true);
+        coffeeMachineSound.Play();
     }
     public void AddCoffeeMug() => Instantiate(coffeePrefab, coffeeSpawnPoint, Quaternion.identity);
     public void ShowHint()

@@ -27,10 +27,12 @@ public class GameTime : MonoBehaviour
     private bool _isEveningTriggered = false;
     private int _lastHour;
     private string _lastDay;
+    private int _lastWeekNumber;
 
     public static event Action OnEveningTime;
     public static event Action OnNewDay;
     public static event Action OnNewHour;
+    public static event Action OnNewWeek;
 
 
     private void Awake()
@@ -38,7 +40,6 @@ public class GameTime : MonoBehaviour
         Instance = this;
         currentDayPart = DayPart.morning;
 
-        // Устанавливаем нормальную скорость по умолчанию
         Time.timeScale = 1f;
         _currentSpeedIndex = 0;
 
@@ -50,10 +51,29 @@ public class GameTime : MonoBehaviour
 
         _lastHour = _gameTime.Hour;
         _lastDay = _gameTime.ToString("dddd");
+        _lastWeekNumber = GetWeekNumber(_gameTime); // Инициализируем номер недели
+    }
+
+    // Метод для определения номера недели
+    private int GetWeekNumber(DateTime date)
+    {
+        var culture = System.Globalization.CultureInfo.CurrentCulture;
+        return culture.Calendar.GetWeekOfYear(date, culture.DateTimeFormat.CalendarWeekRule, culture.DateTimeFormat.FirstDayOfWeek);
+    }
+
+    private void CheckNewWeek()
+    {
+        int currentWeekNumber = GetWeekNumber(_gameTime);
+        if (currentWeekNumber != _lastWeekNumber)
+        {
+            OnNewWeek?.Invoke();
+            _lastWeekNumber = currentWeekNumber;
+        }
     }
 
     public DateTime GetGameTime() => _gameTime;
     public DayPart GetCurrentDayPart() => currentDayPart;
+
 
     private void CheckEveningTime()
     {
@@ -123,6 +143,7 @@ public class GameTime : MonoBehaviour
         CheckEveningTime();
         CheckNewDay();
         CheckNewHour();
+        CheckNewWeek(); // Добавляем проверку новой недели
     }
 
     private void ToggleTimeSpeed()

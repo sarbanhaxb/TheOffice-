@@ -107,8 +107,55 @@ AnimationClip:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
-    genericBindings: []
-    pptrCurveMapping: []
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    pptrCurveMapping:
+    - {fileID: 4519874743236851585, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -3794630331958880505, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -7395734129067502845, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 2746952052471099945, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -6023194931759409126, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -5132683467517699142, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 8371908168647951857, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -6081734755767018326, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 8666387983234479285, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -2353619459216851033, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 4155356569673430147, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 8440981644781404299, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -1833612680711695883, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 1009349487082180287, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -5665394792545560187, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -7031564783591048472, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -5685945389420250843, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -273020508551318665, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -4843278951098711564, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 6334540119761523575, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 5441969357866472790, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -2862461490017870270, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 4022034522765121363, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -7822214412537803736, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 2278518998066874871, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 2292359662607247548, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 299547977015556783, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 3568716905199306528, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -7388156678191182128, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -2336897402965612027, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 3731114750961502811, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 4278069906237005305, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 1688706307928345897, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 2290992440699215104, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 2029438051758496301, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: -4624932260251536936, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 9022507814823953150, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
+    - {fileID: 9022507814823953150, guid: 2e4fa1e7bd2245e4a8aba9f46b5e639e, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -133,4 +180,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 9.9
+    functionName: SetState
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 6
+    messageOptions: 0
+  - time: 9.9
+    functionName: TurnOffAnimatorBoolean
+    data: IsSmoking
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

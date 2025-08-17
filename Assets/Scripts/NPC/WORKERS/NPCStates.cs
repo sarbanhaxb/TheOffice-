@@ -12,5 +12,6 @@ public enum NPCStates
 	GoEating,
 	Empty,
 	Speak,
-	GoHome
+	GoHome,
+	PassedOut
 }
