@@ -10,12 +10,19 @@ public class WorkingInteractable : MonoBehaviour, IInteractable
     [Header("—сылки")]
     public GameObject workPlaceHint;
     [SerializeField] private float interactionPriority = 5f;
+    [SerializeField] private Canvas screen;
+
+    private void Awake()
+    {
+        screen = GameObject.FindGameObjectWithTag("Screen").GetComponent<Canvas>();
+    }
 
     public void Interact()
     {
         if (PlayerCurrentState.Instance.GetCurrentState() != PlayerStates.Working && PlayerStats.Instance.GetStressRatio() != 1f && GameTime.Instance.GetCurrentDayPart() == DayPart.morning)
         {
             PlayerCurrentState.Instance.SetState(PlayerStates.Working);
+            screen.enabled = true;
             workPlaceHint.GetComponent<TMP_Text>().text = "Press E to stop working";
         }
         else if ((PlayerCurrentState.Instance.GetCurrentState() != PlayerStates.Working && PlayerStats.Instance.GetStressRatio() == 1f) || GameTime.Instance.GetCurrentDayPart() != DayPart.morning)
@@ -26,6 +33,7 @@ public class WorkingInteractable : MonoBehaviour, IInteractable
         {
             PlayerCurrentState.Instance.SetState(PlayerStates.Idle);
             workPlaceHint.GetComponent<TMP_Text>().text = "Press E to start work";
+            screen.enabled = false;
         }
     }
 

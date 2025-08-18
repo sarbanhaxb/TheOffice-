@@ -11,7 +11,7 @@ public class RoomScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && GameTime.Instance.GetCurrentDayPart()==DayPart.morning)
         {
             playerInMeetingRoom.SendEventMessage(collision);
         }
@@ -19,7 +19,7 @@ public class RoomScript : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && GameTime.Instance.GetCurrentDayPart() == DayPart.morning)
         {
             playerExitMeetingRoom.SendEventMessage(collision);
         }

@@ -29,6 +29,8 @@ TagManager:
   - NavMeshSurface
   - PresentPosition
   - MeetingRoom
+  - Screen
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -65,6 +67,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI_Background
+    uniqueID: 2050966159
+    locked: 0
+  - name: Back
+    uniqueID: 940670153
     locked: 0
   m_RenderingLayers:
   - Default
