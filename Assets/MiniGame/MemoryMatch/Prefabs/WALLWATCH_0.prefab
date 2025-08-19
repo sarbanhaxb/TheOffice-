@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 265181028788125378}
   - component: {fileID: 4514407781573634844}
   - component: {fileID: 8961971974283746356}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WALLWATCH_0
-  m_TagString: Untagged
+  m_TagString: GameElement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -960.008, y: -541.38, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2050966159
   m_SortingLayer: 1
-  m_SortingOrder: 100
+  m_SortingOrder: 6
   m_Sprite: {fileID: 6962255275702402529, guid: 0de4e231c93975c4f8ed637621966524, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

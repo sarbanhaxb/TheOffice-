@@ -31,6 +31,12 @@ TagManager:
   - MeetingRoom
   - Screen
   - Wall
+  - CloseWin
+  - CatchGame
+  - GameCamera
+  - TheOfficeCatcher
+  - GameElement
+  - SpawnZone
   layers:
   - Default
   - TransparentFX
@@ -39,7 +45,7 @@ TagManager:
   - Water
   - UI
   - TilemapIgnore
-  - 
+  - MiniGame
   - Selectable
   - CinemachineConfiner
   - 

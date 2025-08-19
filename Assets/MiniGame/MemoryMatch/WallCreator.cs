@@ -15,15 +15,18 @@ public class WallCreator : MonoBehaviour
         Vector2 cameraSize = new Vector2(cameraHeight * screenAspect, cameraHeight);
 
         // Создаем 4 стены
-        CreateWall("TopWall", new Vector2(0, cameraSize.y / 2), new Vector2(cameraSize.x, 0.1f));
-        CreateWall("BottomWall", new Vector2(0, -cameraSize.y / 2), new Vector2(cameraSize.x, 0.1f));
-        CreateWall("LeftWall", new Vector2(-cameraSize.x / 2, 0), new Vector2(0.1f, cameraSize.y));
-        CreateWall("RightWall", new Vector2(cameraSize.x / 2, 0), new Vector2(0.1f, cameraSize.y));
+        LayerMask layer = LayerMask.NameToLayer("MiniGame");
+
+        CreateWall("TopWall", new Vector2(0, cameraSize.y / 2), new Vector2(cameraSize.x, 0.1f), layer);
+        CreateWall("BottomWall", new Vector2(0, -cameraSize.y / 2), new Vector2(cameraSize.x, 0.1f), layer);
+        CreateWall("LeftWall", new Vector2(-cameraSize.x / 2, 0), new Vector2(0.1f, cameraSize.y), layer);
+        CreateWall("RightWall", new Vector2(cameraSize.x / 2, 0), new Vector2(0.1f, cameraSize.y), layer);
     }
 
-    private void CreateWall(string name, Vector2 position, Vector2 size)
+    private void CreateWall(string name, Vector2 position, Vector2 size, LayerMask layer)
     {
         GameObject wall = new GameObject(name);
+        wall.layer = layer;
         wall.tag = "Wall";
         wall.transform.position = position;
         BoxCollider2D collider = wall.AddComponent<BoxCollider2D>();
