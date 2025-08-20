@@ -17,6 +17,15 @@ public class WorkingInteractable : MonoBehaviour, IInteractable
         screen = GameObject.FindGameObjectWithTag("Screen").GetComponent<Canvas>();
     }
 
+    private void Update()
+    {
+        if (GameTime.Instance.GetCurrentDayPart() == DayPart.evening && PlayerCurrentState.Instance.GetCurrentState() == PlayerStates.Working)
+        {
+            screen.enabled = false;
+            PlayerCurrentState.Instance.SetState(PlayerStates.Idle);
+        }
+    }
+
     public void Interact()
     {
         if (PlayerCurrentState.Instance.GetCurrentState() != PlayerStates.Working && PlayerStats.Instance.GetStressRatio() != 1f && GameTime.Instance.GetCurrentDayPart() == DayPart.morning)

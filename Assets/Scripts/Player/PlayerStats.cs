@@ -64,7 +64,7 @@ public class PlayerStats : MonoBehaviour
     {
         UpdateStats();
         UpdateCoffeeEffect(); // Добавлен вызов обновления таймера кофе
-        if (_playerCurrentState.GetCurrentState().Equals(PlayerStates.Working)) UpdateFinancialStatus();
+        //if (_playerCurrentState.GetCurrentState().Equals(PlayerStates.Working)) UpdateFinancialStatus();
     }
 
     private void UpdateFinancialStatus()
