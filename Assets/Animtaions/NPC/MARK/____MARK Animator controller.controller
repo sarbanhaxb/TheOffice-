@@ -98,7 +98,7 @@ AnimatorStateMachine:
     m_Position: {x: 250, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2278328147594415362}
-    m_Position: {x: -430, y: -90, z: 0}
+    m_Position: {x: -440, y: -90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4139023490188997132}
     m_Position: {x: -460, y: 60, z: 0}
@@ -107,7 +107,7 @@ AnimatorStateMachine:
     m_Position: {x: -230, y: -90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8140684158402295139}
-    m_Position: {x: -260, y: 60, z: 0}
+    m_Position: {x: -250, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -14266265320391490}
     m_Position: {x: 150, y: 250, z: 0}
@@ -191,7 +191,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MARK_EATING
+  m_Name: EATING
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -204,7 +204,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: dc11a1a9d30815346ae9a45eebc7441b, type: 2}
+  m_Motion: {fileID: 7400000, guid: 55d1e9211285c9043b8555d2070577cc, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -267,7 +267,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MARK_PASSEDOUT
+  m_Name: PASSEDOUT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -280,7 +280,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 55490b2525e6e2f439e40f67291aa204, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8cc0231471fb8914e869691533ef9e34, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -293,7 +293,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MARK_SPEAK
+  m_Name: SPEAK
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -320,7 +320,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MARK_PRESENT
+  m_Name: PRESENT
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -334,7 +334,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 17d558ecde53ce44fba57d045028ce6e, type: 2}
+  m_Motion: {fileID: 7400000, guid: c4ba3ff8d608bd8469c76fc3ee3c1d73, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -346,7 +346,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MARK Animator controller
+  m_Name: ____MARK Animator controller
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: IsMove
@@ -472,7 +472,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MARK_DRINK_WATER
+  m_Name: DRINK_WATER
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -485,7 +485,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 11099fd63327421428445a9e84d6053c, type: 2}
+  m_Motion: {fileID: 7400000, guid: ed6b9a56475f25e4d881d48f67926c7e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -525,7 +525,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 84acebb70b04be744b7d763cefaad0af, type: 2}
+    m_Motion: {fileID: 7400000, guid: 9c50644e444e7494baac4900275bb79c, type: 2}
     m_Threshold: -1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -533,7 +533,7 @@ BlendTree:
     m_DirectBlendParameter: MoveY
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: a61fe4f8e75ecdc43ad98d4516dd9b10, type: 2}
+    m_Motion: {fileID: 7400000, guid: a683c1cd43ec5f54a81e7f42536e7351, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -579,7 +579,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MARK_SMOKE
+  m_Name: SMOKE
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -592,7 +592,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1bad500496c11f84383871f37e3ec930, type: 2}
+  m_Motion: {fileID: 7400000, guid: 54bf51ef767dbb94eb8589556c56fa63, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -713,7 +713,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: d17962a9ee71ff24682828ca34ca1fbd, type: 2}
+    m_Motion: {fileID: 7400000, guid: 17d558ecde53ce44fba57d045028ce6e, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -721,7 +721,7 @@ BlendTree:
     m_DirectBlendParameter: MoveY
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 90a70890df6b89e4e89c3ea432244b59, type: 2}
+    m_Motion: {fileID: 7400000, guid: feb285e3318ce4f42b6060f1c1f35d79, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -729,7 +729,7 @@ BlendTree:
     m_DirectBlendParameter: MoveY
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: d222d03979f8db04fb87f110d7d2e3df, type: 2}
+    m_Motion: {fileID: 7400000, guid: e01b0aa7ab5094e47baeac1abab48cf2, type: 2}
     m_Threshold: 2
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -737,7 +737,7 @@ BlendTree:
     m_DirectBlendParameter: MoveY
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 2d2a4f2bbd7bbc2458b385af6b02d884, type: 2}
+    m_Motion: {fileID: 7400000, guid: 9eee66e54581cbb43b8c7f36808df9e0, type: 2}
     m_Threshold: 3
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -745,7 +745,7 @@ BlendTree:
     m_DirectBlendParameter: MoveY
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f2b4420281cce7e4ba8226530b7d3a82, type: 2}
+    m_Motion: {fileID: 7400000, guid: 74231850196e41c46a775822542e8f1b, type: 2}
     m_Threshold: 4
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -766,7 +766,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MARK_DRINK_COFFEE
+  m_Name: DRINK_COFFEE
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -779,7 +779,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bc0a8d94c8ce4ae439ee5bccd60c90a1, type: 2}
+  m_Motion: {fileID: 7400000, guid: 529d889324c886548a934982a8249aad, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -119,8 +119,8 @@ public class NPC_Stats : MonoBehaviour
 
         // Обновляем уровни потребностей
         _currentStressLevel = Mathf.Clamp(_currentStressLevel + stressIncreaseRate * Time.deltaTime, 0f, maxStressLevel);
-        _currentStarveLevel = Mathf.Clamp(_currentStarveLevel + hungerIncreaseRate * Time.deltaTime, 0f, maxStarveLevel);
-        _currentThirstLevel = Mathf.Clamp(_currentThirstLevel + thirstIncreaseRate * Time.deltaTime, 0f, maxThirstLevel);
+        _currentStarveLevel = Mathf.Clamp(_currentStarveLevel + hungerIncreaseRate * Time.deltaTime * GetRandomModification(), 0f, maxStarveLevel);
+        _currentThirstLevel = Mathf.Clamp(_currentThirstLevel + thirstIncreaseRate * Time.deltaTime * GetRandomModification(), 0f, maxThirstLevel);
     }
 
     // Методы для изменения зарплаты
@@ -139,7 +139,7 @@ public class NPC_Stats : MonoBehaviour
         }
     }
 
-
+    private float GetRandomModification() => Random.Range(1f, 3f);
     private void OnEnable()
     {
         GameTime.OnNewHour += AddCurrentSalaryDebt;

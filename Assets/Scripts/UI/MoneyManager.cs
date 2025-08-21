@@ -1,6 +1,8 @@
 using System;
 using TMPro;
+using Unity.AppUI.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MoneyManager : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class MoneyManager : MonoBehaviour
     [SerializeField] private TMP_Text moneyText;
     [SerializeField] private TMP_Text salaryDebtText;
     [SerializeField] private TMP_Text officeRent;
+    [SerializeField] private UnityEngine.Canvas gameOver;
 
     [Header("Настройки")]
     [SerializeField] private float initialMoney = 0f;
@@ -26,6 +29,7 @@ public class MoneyManager : MonoBehaviour
         _currentMoney = initialMoney;
 
         officeRent.text = _officeRent.ToString();
+        gameOver.enabled = false;
 
         UpdateMoneyUI();
     }
@@ -74,5 +78,21 @@ public class MoneyManager : MonoBehaviour
         _currentMoney -= _officeRent;
         _salaryDebt = 0f;
         UpdateMoneyUI();
+
+        if (_currentMoney < 0f)
+        {
+            DeclareBankruptcy();
+        }
+    }
+
+    private void DeclareBankruptcy()
+    {
+        gameOver.enabled = true;
+        Time.timeScale = 0f;
+    }
+
+    public void AtMainMeny()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
